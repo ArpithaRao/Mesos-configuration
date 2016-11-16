@@ -1,0 +1,8 @@
+name 'monit'
+version '2.1'
+source ''
+author 'HP Software'
+license ''
+summary 'monit Module'
+description 'monit'
+project_page ''
