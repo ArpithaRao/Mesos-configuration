@@ -1,0 +1,34 @@
+##appRepo,http://reyum.englab.local/yum/lynx-4.0.0/continuous
+
+smtpServer,smtp.englab.local
+puppetEnabled,false
+puppetService,stopped
+loggingfilter.loglevel,debug
+
+permitRootLogin,yes
+
+masterNodeIp,16.73.21.220
+masterNodeFqdn,a1-dev-mem963.lab.lynx-connected.com
+
+sudoRequireTty,no
+
+mesosSlaveAttributes,gateway
+containerizers,"docker,mesos"
+executor_registration_timeout,5mins
+gc_delay,1days
+gc_disk_headroom,0.18
+launcher_dir,/usr/libexec/mesos
+##cpus,7
+resource,"cpus:7;ports:[7000-9050, 31000-59000]"
+zookeeper,16.73.21.220
+
+##For docker set-up:
+## Artifactory info. For artifactoryUrl port number should not be mentioned
+artifactoryUrl,rh7-artifactory.svs.hpeswlab.net
+artifactoryUserName,dockerdev
+artifactoryPassword,build2015
+artifactoryEmail,nalini.k.vardham@hpe.com
+dockerImage,rh7-artifactory.svs.hpeswlab.net:8443/idm/app:4.1.1-SNAPSHOT
+
+storageSetUp,no
+secureRegistry,no

@@ -1,0 +1,10 @@
+puppetEnabled,false
+puppetService,stopped
+mesosClusterName,Dev_963_Mesos
+
+zookeeperMyId,1
+quorumMembers,1
+zookeeper_uri,zk://a1-dev-mem963.lab.lynx-connected.com:2181/mesos
+zoo_cfg,server.1=a1-dev-mem963.lab.lynx-connected.com:2888:3888
+
+zookeeper,16.73.21.220
