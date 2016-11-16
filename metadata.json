@@ -1,12 +1,12 @@
 {
-  "name": "oracle_java",
+  "name": "puppet",
   "version": "2.1",
   "author": "HP Software",
-  "summary": "oracle_java Module",
+  "summary": "puppet Module",
   "license": "",
   "source": "",
   "issues_url": null,
-  "description": "oracle_java",
+  "description": "puppet",
   "project_page": "",
   "dependencies": [
   
