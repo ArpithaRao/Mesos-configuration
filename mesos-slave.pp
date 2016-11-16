@@ -19,53 +19,7 @@ node 'mesos-slave' inherits 'base' {
     puppet_service          => extlookup("puppetService", $env_puppet_service) ,
   }
 
-  ########################################################################
-  #
-  # MCOLLECTIVE
-  #
-  ########################################################################
-
-  class { 'mcollective::server':
-    pool_hosts              => extlookup("mcollectivePoolHosts", $env_mco_pool_hosts) ,
-    connector_type          => extlookup("mcollectiveConnectorType", "rabbitmq") ,
-    mq_port                 => extlookup("mqPort", "") ,
-    mq_user                 => extlookup("mqUser", $env_mco_user) ,
-    mq_password             => extlookup("mqPassword", $env_mco_password) ,
-    vhost                   => extlookup("mcoVhost", "") ,
-    security_provider       => extlookup("securityProvider", "") ,
-    mco_psk                 => extlookup("mcoPsk", $env_mco_psk) ,
-  }
-
-  class { 'mcollective::filemgr::agent': }
-
-  class { 'mcollective::iptables::agent': }
-
-  class { 'mcollective::nrpe::agent': }
-
-  class { 'mcollective::puppet::agent': }
-
-  class { 'mcollective::package::agent': }
-
-  class { 'mcollective::service::agent': }
-
-  class { 'mcollective::shell::agent': }
-
-  case $::operatingsystem {
-
-    centos, redhat: {
-
-      case $::operatingsystemmajrelease {
-
-        6: {
-
-          class { 'mcollective::facter': }
-
-          class { 'mcollective::nettest::agent': }
-        }
-      }
-    }
-  }
-
+ 
   ########################################################################
   #
   # SYSTEM SERVICES
@@ -103,75 +57,6 @@ node 'mesos-slave' inherits 'base' {
     system_log_rate_limit_burst     => extlookup("systemLogRateLimitBurst" , "") ,
   }
 
-  ########################################################################
-  #
-  # SECURITY CONFIGURATION
-  #
-  # Since this node type does not require a graphical user interface,
-  # we add additional Center for Internet Security (CIS) security
-  # configuration to enforce that state.
-  #
-  ########################################################################
-
-  class { 'cis::nogui': }
-
-  ########################################################################
-  #
-  # SSL
-  #
-  ########################################################################
-
-  if $env_ssl_mode == 'certmaster' {
-
-    class { 'func::minion': }
-
-    class { 'certmaster::minion':
-      certmaster          => $env_puppet_master ,
-    }
-
-    class { 'certmonger': }
-  }
-  elsif $env_ssl_mode == 'wildcard' {
-
-    class { 'sslcert::wildcard': }
-  }
-  else {
-  }
-
-  ########################################################################
-  #
-  # ANTIVIRUS & HOST INTRUSION PREVENTION
-  #
-  ########################################################################
-
-  $deploy_mcafee = [ 'preprod' , 'production' ]
-
-  if $stack in $deploy_mcafee {
-
-    class { 'mcafee::common': }
-
-    class { 'mcafee::vse':
-      admin_email             => extlookup("mcafeeAdminEmail", $admin_email_address) ,
-      nails_password          => extlookup("nailsPassword", "") ,
-      smtp_host               => extlookup("mcafeeSmtpHost", $smtp_relay_host) ,
-      vse_start_processes     => extlookup("vseStartProcesses", "no") ,
-    }
-
-    class { 'mcafee::hip': }
-  }
-  else {
-  }
-
-  ########################################################################
-  #
-  # SYSTEM PERFORMANCE TUNING
-  #
-  ########################################################################
-
-  class { 'etc::sysctl':
-    vm_swappiness           => extlookup("vmSwappiness", "0") ,
-    fs_file_max             => extlookup("fsFileMax", "999999") ,
-  }
 
   ########################################################################
   #
@@ -213,32 +98,7 @@ node 'mesos-slave' inherits 'base' {
 
   }
 
-  ########################################################################
-  #
-  # LOCAL GROUPS
-  #
-  ########################################################################
-
-  class { 'group::supergroup': }
-
-  ########################################################################
-  #
-  # LLAMASHELL
-  #
-  ########################################################################
-
-  $deploy_llamashell = [ 'dev', 'qa' ]
-  if $stack in $deploy_llamashell {
-
-    class { 'llamashell':
-      fw_interface                   => extlookup("llamashellFirewallInterface", $env_def_fw_interface) ,
-      llamashell_ssl                 => extlookup("llamashellSsl", "false") ,
-      llamashell_ssl_keypass         => extlookup("llamashellSslKeypass", "Password1") ,
-      llamashell_client_ssl          => extlookup("llamashellClientSsl", "false") ,
-      llamashell_client_ssl_keypass  => extlookup("llamashellClientSslKeypass", "Password1") ,
-    }
-  }
-
+ 
   ########################################################################
   #
   # MESOS SLAVE
