@@ -1,12 +1,12 @@
 {
-  "name": "monit",
+  "name": "oracle_java",
   "version": "2.1",
   "author": "HP Software",
-  "summary": "monit Module",
+  "summary": "oracle_java Module",
   "license": "",
   "source": "",
   "issues_url": null,
-  "description": "monit",
+  "description": "oracle_java",
   "project_page": "",
   "dependencies": [
   
