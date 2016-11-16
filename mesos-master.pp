@@ -106,25 +106,6 @@ class { 'oracle_java::jdk::jceunlimited':
   #
   ########################################################################
 
-  #Add the repo
-#  exec { "Add mesos repository":
-#    command     => "rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm" ,
-#    alias       => 'add-mesos-repo' ,
-#    path        => [ '/bin' , '/usr/bin' , '/usr/sbin' , '/usr/lib/systemd/system', ] ,
-#    logoutput   => true ,
-#    onlyif      => ["test ! -e /usr/lib/systemd/system/mesos-master.service", ] ,
-#    require => Class['oracle_java'] ,
-#  }
-
-  # Update node
-#  exec { "Yum update node":
-#    command     => "yum list updates && yum update -y && yum clean all" ,
-#    alias       => 'yum-update-node' ,
-#    path        => [ '/bin' , '/usr/bin' , '/usr/sbin' , '/usr/lib/systemd/system', ] ,
-#    logoutput   => true ,
-#    onlyif      => ["test ! -e /usr/lib/systemd/system/mesos-master.service", ] ,
-#  }
-
   class{'mesos':
     repo => 'mesosphere',
     zookeeper => [ extlookup("zookeeper", "")],
